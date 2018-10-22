@@ -1,0 +1,828 @@
+<header>
+    <h1>CSS Richtlijnen</h1>
+</header>
+
+<main>
+    <div class="intro">
+        <p>Deze stijlgids is bedoeld voor iedereen die in aanraking komt met het schrijven van CSS. De richtlijnen die
+            hier genoemd staan zijn een sterke aanmoediging voor het gebruik van bestaande, algemene en verstandige
+            patronen.</p>
+        <p>Dit is een document in ontwikkeling en nieuwe ideeën zijn altijd welkom.</p>
+    </div>
+
+
+    <h2 id="ToC-Introductie">Introductie</h2>
+    <p>CSS is geen mooie taal. Hoewel het eenvoudig is om te leren en mee aan de slag te gaan, kan het al snel een
+        probleem worden op grotere schaal. We kunnen niet veranderen hoe CSS werkt, maar we kunnen wel de manier waarop
+        we CSS schrijven en structuren aanpassen.</p>
+    <p>Als we werken aan grote, langlopende projecten, met meerdere ontwikkelaars van verschillende specialiteiten en
+        capaciteiten, is het belangrijk dat we allemaal op dezelfde manier werken zodat o.a.:</p>
+    <ul>
+        <li>de stylesheets onderhoudbaar blijven;</li>
+        <li>de code transparant, logisch en leesbaar blijft</li>
+        <li>de stylesheets schaalbaar blijven</li>
+    </ul>
+    <p>In dit document staan verschillende aanbevelingen, regels en technieken die we kunnen gebruiken om ons te helpen
+        aan al deze doelen te voldoen.</p>
+
+    <h2 id="ToC-Syntax--opmaak">Syntax &amp; opmaak</h2>
+    <p>Het is prettig om met code te werken die er netjes uit ziet. Het is voor andere teamleden ook uitnodigend om het
+        mooi te houden. Lelijke code geeft een verkeerd voorbeeld.</p>
+    <p>Een standaard manier van CSS schrijven (letterlijk schrijven) helpt mee om alles netjes te houden. Het betekent
+        ook dat code er altijd hetzelfde uit ziet en vertrouwd aanvoelt bij alle leden van het team.</p>
+
+    <h3 id="ToC-80-karakters-breed">80 karakters breed</h3>
+    <p>Waar mogelijk, limiteer je CSS tot maximaal 80 karakters breed.</p>
+    <ul>
+        <li>het geeft de mogelijkheid om meerdere bestanden naast elkaar open te hebben;</li>
+        <li>zorgt voor een comfortabele lijn lengte voor commentaar</li>
+    </ul>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/**
+    * Dit is een lang commentaar-blok. Hier beschrijf ik in detail de CSS die hierna
+    * volgt. Dit is zo'n lang commentaar-blok dat deze makkelijk over de 80 karakter
+    * grens gaat, en dus opgedeeld wordt over meerdere regels.
+    */</span></code></pre>
+
+    <h3 id="ToC-Anatomie-van-een-stijlregel">Anatomie van een stijlregel</h3>
+    <p>Voordat we het hebben over de daadwerkelijke stijlregels, laten we eerst de relevante terminologie benoemen:</p>
+    <pre class="language-css"><code><span class="token selector">selector </span><span class="token punctuation">{</span>
+        <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/*  &lt;-- declaratie ---&gt;  */</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Uit het onderstaande voorbeeld,</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.box</span>, <span class="token class">.box--promo</span>,
+    <span class="token class">.widget</span> </span><span class="token punctuation">{</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #c0ffee<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #decaff<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>kun je het volgende afleiden:</p>
+    <ul>
+        <li>gerelateerde selectors op dezelfde regel,<br> niet gerelateerde selectors op een nieuwe regel;</li>
+        <li>een spatie voor de open accolade (<code>{</code>);</li>
+        <li>de open accolade (<code>{</code>) op dezelfde regel als de laatste selector;</li>
+        <li>de eerste declaratie op een nieuwe regel na de open accolade (<code>{</code>);</li>
+        <li>eigenschappen en waardes op dezelfde regel;</li>
+        <li>een spatie achter de dubbele punt tussen een eigenschap en een waarde (<code>:</code>);</li>
+        <li>elke declaratie op een nieuwe regel;</li>
+        <li>elke declaratie één tab ingesprongen;</li>
+        <li>elke regel eindigen met een puntkomma.</li>
+        <li>de sluit accolade (<code>}</code>) op een nieuwe regel;</li>
+    </ul>
+    <h3 id="ToC-Multiline-CSS">Multi-line CSS</h3>
+    <p>Zoals je ook in het vorige voorbeeld ziet, schrijven we CSS altijd over meerdere regels, behalve in hele
+        specifieke gevallen. Hier zijn een aantal voordelen aan:</p>
+    <ul>
+        <li>Je kan sneller door je styles scannen om te zien welke eigenschappen zijn gebruikt.</li>
+        <li>Een kleinere kans op merge conflicten, omdat elke stukje functionaliteit op z'n eigen regel staat.</li>
+        <li>Je kan beter 'comparen' met oude check-ins, omdat elke regel maar 1 verandering omvat.</li>
+    </ul>
+    <h3 id="ToC-Uitzonderingen-en-kleine-afwijkingen">Uitzonderingen en kleine afwijkingen</h3>
+    <p>Uitzonderingen zijn stijlregels die maar één declaratie bevatten. Dit soort stijlregels kunnen beter op één
+        regel, omdat je dan de selectors snel wilt kunnen scannen. Deze zijn in dit geval belangrijker dan de
+        daadwerkelijke eigenschappen en waardes.</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.icon</span> </span><span class="token punctuation">{</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span>
+        <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(img/icon-sprite.png)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.icon--1</span> </span><span class="token punctuation">{</span> <span class="token property">background-position</span><span class="token punctuation">:</span> 0 0<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.icon--2</span> </span><span class="token punctuation">{</span> <span class="token property">background-position</span><span class="token punctuation">:</span> 0 -16px<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.icon--3</span> </span><span class="token punctuation">{</span> <span class="token property">background-position</span><span class="token punctuation">:</span> 0 -32px<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.icon--4</span> </span><span class="token punctuation">{</span> <span class="token property">background-position</span><span class="token punctuation">:</span> 0 -48px<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Volgorde-van-declaraties">Volgorde van declaraties</h3>
+    <p>Als je er op kan rekenen dat bepaalde properties altijd op dezelfde plaats staan, begrijp je de CSS een stuk
+        sneller (minder zoeken). Dit is belangrijk bij het werken in een team en helpt bij het lezen van code waar je
+        minder bekend mee bent, omdat je het niet zelf geschreven hebt.</p>
+    <p>De voorkeur gaat uit naar het groeperen van gerelateerde eigenschappen. Structureel belangrijke eigenschappen
+        (b.v. positionering en box-model) worden vóór typografische-, achtergronds- en kleureigenschappen gedeclareerd.</p>
+    <p>In onderstaand stuk code zie je een voorbeeld van juiste groepering van eigenschappen in een selector met
+        meerdere declaraties. <em>(Het commentaar en de witregel na elk blokje kun je uiteraard weglaten).</em></p>
+    <pre class="language-css"><code><span class="token selector">selector </span><span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/* Positionering */</span>
+        <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+        <span class="token property">z-index</span><span class="token punctuation">:</span> 10<span class="token punctuation">;</span>
+        <span class="token property">top</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token property">right</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/* Display &amp; Box Model */</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+        <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+        <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+        <span class="token property">padding</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+        <span class="token property">border</span><span class="token punctuation">:</span> 10px solid #333<span class="token punctuation">;</span>
+        <span class="token property">border-radius</span><span class="token punctuation">:</span> 4px<span class="token punctuation">;</span>
+        <span class="token property">box-shadow</span><span class="token punctuation">:</span> 3px 0 10px 0 <span class="token function">rgba</span>(50, 50, 50, 0.5)<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/* Kleuren */</span>
+        <span class="token property">background</span><span class="token punctuation">:</span> #000<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/* Text */</span>
+        <span class="token property">font-family</span><span class="token punctuation">:</span> sans-serif<span class="token punctuation">;</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span>
+        <span class="token property">line-height</span><span class="token punctuation">:</span> 1.4em<span class="token punctuation">;</span>
+        <span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+        <span class="token property">text-decoration</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/* Overig */</span>
+        <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+        <span class="token property">white-space</span><span class="token punctuation">:</span> pre<span class="token punctuation">;</span>
+        <span class="token property">transition</span><span class="token punctuation">:</span> all 0.3s ease<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Kleuren">Kleuren</h3>
+    <p>Bij het typen van een kleur in hexadecimale notering, gebruik je <strong>kleine letters</strong>. Dit omdat we
+        vaak kleurcodes kopiëren uit Photoshop, en we dan één formatering aanhouden. Je mag 3-cijferparen of
+        6-cijferparen gebruiken, maar waar mogelijk de 3-cijfer versie. Dit bespaard een paar bytes.</p>
+    <pre class="language-css"><code><span class="token property">color</span><span class="token punctuation">:</span> #ff4e50<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #FF4E50<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* fout */</span>
+
+    <span class="token property">color</span><span class="token punctuation">:</span> #aaa<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #AAA<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* fout */</span></code></pre>
+
+    <h3 id="ToC-Afmetingen">Afmetingen</h3>
+    <p>Bij het noteren van afmetingen, <code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code>,
+        <code>border</code> gebruik je altijd een eenheid (b.v. <code>em</code>, <code>px</code> of <code>%</code>).
+        Als de waarde 0 is, laat je de eenheid weg.</p>
+    <pre class="language-css"><code><span class="token property">width</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 12%<span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 12em<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 12<span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 0px<span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/* fout */</span></code></pre>
+
+    <h3 id="ToC-Notatie-van-aanhalingstekens">Notatie van aanhalingstekens</h3>
+    <p>Gebruik bij voorkeur enkele (' ') i.p.v. dubbele (" ") aanhalingstekens. <br> De URL-waarde, van b.v. de <code>background</code>-property
+        behoeft geen aanhalingstekens.</p>
+    <pre class="language-css"><code><span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"open sans"</span>, arial, sans-serif<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'open sans'</span>, arial, sans-serif<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url('/Img/sprite.png')</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(/Img/sprite.png)</span><span class="token punctuation">;</span>               <span class="token comment" spellcheck="true">/* goed */</span></code></pre>
+
+    <h3 id="ToC-Shorthand-notaties">Shorthand notaties</h3>
+    <p>Wanneer mogelijk is het gebruik van <a href="http://www.456bereastreet.com/archive/200502/efficient_css_with_shorthand_properties/">shorthand
+            notaties</a> gewenst. Deze kunnen worden gebruikt bij o.a. <code>background</code>, <code>border</code>,
+        <code>margin</code>, <code>padding</code>, <code>list-style</code> en <code>font</code> declaraties.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> #e2fda1 <span class="token url">url(/img/icon.png)</span> no-repeat left top<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> #e2fda1<span class="token punctuation">;</span>
+    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url">url(/img/icon.png)</span><span class="token punctuation">;</span>
+    <span class="token property">background-repeat</span><span class="token punctuation">:</span> no-repeat<span class="token punctuation">;</span>
+    <span class="token property">background-position</span><span class="token punctuation">:</span> left top<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> 2px dashed #f90<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">border-width</span><span class="token punctuation">:</span> 2px<span class="token punctuation">;</span>
+    <span class="token property">border-style</span><span class="token punctuation">:</span> dashed<span class="token punctuation">;</span>
+    <span class="token property">border-color</span><span class="token punctuation">:</span> #f90<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> 5px 10px 20px<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token property">padding-top</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+    <span class="token property">padding-right</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">padding-bottom</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+    <span class="token property">padding-left</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span></code></pre>
+
+    <h3 id="ToC-Vermijd-onnodige-shorthand-declaraties">Vermijd onnodige shorthand declaraties</h3>
+    <p>Wel moet je uitkijken dat je hiermee geen eerder gezette waardes overschrijft. Als je b.v. alleen maar de <code>margin-bottom</code>
+        wilt wijzigen, doe je dat het best zonder de shorthand notatie.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/* gevaarlijk */</span>
+    <span class="token property">margin</span><span class="token punctuation">:</span> 0 0 20px<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* in dit geval beter */</span>
+    <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span></code></pre>
+
+    <h3 id="ToC-Pas-op-voor-onopzettelijke-CSS-resets">Pas op voor onopzettelijke CSS resets</h3>
+    <p>Elke keer dat je een shorthand oplossing gebruikt in CSS, zet je alle waarden voor alle eigenschappen van het
+        element waar het om gaat. Als je dus een waarde bepaald kun je deze in een regel later per ongeluk weer
+        resetten.</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.module</span> </span><span class="token punctuation">{</span>
+        <span class="token property">background-repeat</span><span class="token punctuation">:</span> no-repeat<span class="token punctuation">;</span>
+        <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(test.jpg)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/* Oeps! Hier wordt de repeat overschreven. */</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Zinvolle-witruimte">Zinvolle witruimte</h3>
+    <p>Door het verstandig gebruik van witruimte tussen de stijlregels kunnen we een heleboel informatie verstrekken.</p>
+    <ul>
+        <li>Gebruik 1 witregel tussen nauw verwante stijlregels</li>
+        <li>Gebruik 2 witregels tussen minder verwante stijlregels</li>
+        <li>Gebruik 5 witregels om een nieuw blok aan te geven</li>
+    </ul>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.box</span> </span><span class="token punctuation">{</span> <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box__hdr</span> </span><span class="token punctuation">{</span> <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box--special</span> </span><span class="token punctuation">{</span> <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/* Widgets
+    ------------------------------------- */</span>
+    <span class="token selector"><span class="token class">.widget</span> </span><span class="token punctuation">{</span> <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Inspringen">Inspringen</h3>
+    <p>Voor het inspringen gebruiken we tabs, een tab is gelijk aan 4 spaties en is binnen Microsoft visual studio vast
+        in te stellen. Dit kun je doen onder het menu 'Tools' &gt; 'Options', in het scherm zoals hieronder in het
+        voorbeeld weergegeven kun je de waardes instellen. Deze stellen we standaard in op 4.</p>
+
+    <img class="wide" src="/media/1026/mvs-tabs.jpg">
+    <h3 id="ToC-HTML">HTML</h3>
+    <p>Aangezien HTML en CSS onafscheidelijk aan elkaar verbonden zijn, moeten we ook hierover wat richtlijnen
+        benoemen.</p>
+    <p>Gebruik altijd aanhalingstekens bij attributen, al werken ze ook zonder. Dit verkleint de kans op ongelukken, en
+        is ook het meest vertrouwd bij ontwikkelaars.</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span>box</span><span class="token punctuation">&gt;</span></span>  <span class="token comment" spellcheck="true">&lt;!-- dit zal gewoon werken --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>box<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>  <span class="token comment" spellcheck="true">&lt;!--  maar dit geniet de voorkeur --&gt;</span></code></pre>
+
+    <p>Bij meerdere waardes in een class attribuut, scheid je deze met <strong>2 spaties</strong>. Dit doen we om de
+        leesbaarheid te vergroten. Zeker bij meer dan 2 classes is dit erg prettig.</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__item box box--large push-left<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> <span class="token comment" spellcheck="true">&lt;!-- slecht leesbaar --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__item  box  box--large  push-left<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> <span class="token comment" spellcheck="true">&lt;!-- Dit is beter --&gt;</span></code></pre>
+
+    <p>Ook in de HTML is zinvolle witruimte tussen bepaalde blokken aan te raden om ze visueel van elkaar te scheiden.
+        Dit zorgt dat ontwikkelaars snel losse delen van de DOM kunnen scannen.</p>
+
+    <h2 id="ToC-Commentaar">Commentaar</h2>
+    <p>Goed becommentarieerde code is extreem belangrijk. Bij een groot project is het soms al lastig om de stukken CSS
+        die je zelf schrijft te onthouden en begrijpen, laat staan die van een collega. Daarom wordt commentaar sterk
+        aangemoedigd.</p>
+    <p><strong>CSS heeft meer comments nodig</strong></p>
+    <p>Door alleen naar een stuk CSS te kijken is het is vaak moeilijk om te onderscheiden</p>
+    <ul>
+        <li>of een stuk CSS afhankelijk is van een ander stuk code;</li>
+        <li>wat het aanpassen van een stuk code voor gevolgen heeft op een andere plek;</li>
+        <li>waar de CSS nog meer wordt gebruikt;</li>
+        <li>welke styles iets overerven (bewust of niet);</li>
+        <li>hoe en waar een stuk CSS bedoeld is te gebruiken;</li>
+    </ul>
+    <p>Omdat met alleen de CSS vaak niet het hele plaatje duidelijk is, is het een taal die echt baat heeft bij veel
+        commentaar. Alles dat niet vanzelf spreekt vanuit de CSS-code zou je kunnen voorzien van commentaar. Ga dus
+        niet alles becommentariëren, alleen als het verduidelijking vereist.</p>
+    <p>Het commentaar mag dan meteen achter de declaratie staan.</p>
+    <p>Dit commentaarblok komt dan voorafgaand aan de selector. Hou bij deze blokken ook rekening met de <a href="#ToC-80-karakters-breed"
+            class="link">80 karakters regel</a>.</p>
+    <h3 id="ToC-Secties-en-modules">Secties en modules</h3>
+    <p>Begin ieder nieuwe sectie of module met een titel commentaarblok.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/* Sectie of module titel commentaarblok
+    -------------------------------------------- */</span></code></pre>
+
+    <h3 id="ToC-Specifieke-declaratie">Specifieke declaratie</h3>
+    <p>Soms is het nodig om bij een specifieke declaratie commentaar toe te voegen om bijvoorbeeld een "hack" toe te
+        lichten.</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.google-marker</span> </span><span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #222 <span class="token important">!important</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Nodig omdat op het element een inline style staat. */</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Meerdere-regels">Meerdere regels</h3>
+    <p>Als je een langere uitleg nodig hebt, die over meerdere regels gaat, gebruik je het best een groep
+        commentaarblok:</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/*
+    * Groep commentaarblok.
+    * Ideaal voor uitleg over meerdere regels en documentatie die uitleg vereist
+    * over een bepaalde module
+    */</span>
+    <span class="token selector">selector </span><span class="token punctuation">{</span>
+        <span class="token property">eigenschap</span><span class="token punctuation">:</span> waarde<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Comment-Summary">Comment Summary</h3>
+    <p>Om een toelichting te geven aan bepaalde CSS blokken is het mogelijk en overzichtelijk om een comment summary
+        toe te passen. Hiermee kun je op 1 plek in de CSS puntsgewijs een toelichting geven op de CSS die daarop volgt
+        doormiddel van een comment.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/*
+    * [1] Background-color for some element
+    * [2] Font-size for some text
+    * [3] Height &amp; Width for a content area
+    */</span>
+    <span class="token selector">selector </span><span class="token punctuation">{</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #000<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*[1]*/</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> 14px<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*[2]*/</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*[3]*/</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*[3]*/</span>
+    <span class="token punctuation">}</span></code></pre>
+
+
+    <h2 id="ToC-Naamgevingsconventies">Naamgevingsconventies</h2>
+    <p>Naamgevingsconventies zijn erg nuttig om de CSS heel strikt, transparant en informatief te maken. Het maakt
+        duidelijk</p>
+    <ul>
+        <li>wat een class doet;</li>
+        <li>waar een class gebruikt kan worden;</li>
+        <li>waar een class betrekking op heeft.</li>
+    </ul>
+    <h3 id="ToC-Gescheiden-met-koppelteken">Gescheiden met koppelteken</h3>
+    <p>Selector benamingen altijd in lowercase, indien nodig gescheiden met een koppelteken (<code>-</code>).</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.widget</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.main-menu</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.portaal-user-login</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+    <p>Camel case en een liggend streepje (<code>_</code>) worden niet gebruikt voor normale classes. Onderstaande
+        voorbeelden zijn dus <em>niet</em> juist:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.headerLogo</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* Camelcasing is niet gewenst in CSS*/</span>
+    <span class="token selector"><span class="token class">.main_menu</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* Liggend streepje niet gebruiken als koppelteken */</span></code></pre>
+
+    <h3 id="ToC-BEM">BEM</h3>
+    <p>Voor objecten in CSS gebruiken we de naamgevings methode van '<a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/">BEM</a>'.<br>
+        BEM splits de classes van bepaalde onderdelen in 3 groepen:</p>
+    <ul>
+        <li><strong>B</strong>lock: Het hoofdobject</li>
+        <li><strong>E</strong>lement: Een onderdeel van het Block</li>
+        <li><strong>M</strong>odifier: Een variant of uitbreiding van het Block</li>
+    </ul>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.widget</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* Block */</span>
+    <span class="token selector"><span class="token class">.widget__header</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* Element */</span>
+    <span class="token selector"><span class="token class">.widget--special</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* Modifier */</span></code></pre>
+
+    <p>Elementen worden gescheiden met twee (2) liggende streepjes (<code>__</code>), en Modifiers worden gescheiden
+        door twee (2) koppeltekens (<code>--</code>).</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__header<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Titel<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+            <span class="token comment" spellcheck="true">&lt;!-- ... --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token comment" spellcheck="true">&lt;!-- ... --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget  widget--special<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token comment" spellcheck="true">&lt;!-- ... --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+    <h4 id="ToC-Meer-lagen">Meer lagen</h4>
+    <p>Het is het niet nodig om elke laag van de DOM te doorlopen. Zoals je in het vorige voorbeeld kan zien zit in de
+        <code>.widget__header</code> nog een titel element. De classes volgen de DOM structuur niet 1 op 1, dus wordt
+        dit <em>niet</em> <code>.widget__header__title</code> maar <code>.widget__title</code>.</p>
+    <h4 id="ToC-Modifiers">Modifiers</h4>
+    <p>Je kan een Modifier op een Block element gebruiken (zoals in het vorige voorbeeld met <code>.widget--special</code>),
+        maar ook direct op een Element:</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> <span class="token comment" spellcheck="true">&lt;!-- Block --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>widget__intro  widget__intro--small<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> <span class="token comment" spellcheck="true">&lt;!-- Elem + Modifier --&gt;</span>
+            <span class="token comment" spellcheck="true">&lt;!-- ... --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+    <h3 id="ToC-Naamgevingsconventies-in-HTML">Naamgevingsconventies in HTML</h3>
+    <p>Deze vorm van naamgeving is niet meteen al nuttig in je CSS. Waar de kracht van deze naamgeving ligt is in je
+        markup. In het voorbeeld hieronder een stukje HTML, <em>zonder</em> naamgevingsconventie:</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>box  reactie  definitief<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon  image<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>datum<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+    <p>Hoe zijn de classes <code>reactie</code> en <code>icon</code> aan elkaar zijn gerelateerd? Of zijn ze dat
+        helemaal niet? Kan je de class <code>definitief</code> naast <code>datum</code> gebruiken? Staan de classes
+        <code>image</code> en <code>reactie</code> bij elkaar in de CSS? Kun je <code>icon</code> ook nog ergens anders
+        gebruiken?</p>
+    <p>Met de voorgaande opmaak, is het moeilijk om op al deze vragen een antwoord te geven. Het gebruik van een
+        naamgevingsconventie verandert de zaak:</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>box  reactie  reactie--definitief<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon  reactie__image<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>reactie__datum<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+    <p>Nu kunnen we duidelijk zien welke classes wel, en welke niet aan elkaar gerelateerd zijn, en hoe. We weten welke
+        classes we niet buiten het component kunnen gebruiken, en welke classes we overal kunnen hergebruiken.</p>
+    <h3 id="ToC-Javascript-hooks">Javascript hooks</h3>
+    <p>Het is niet verstandig om CSS styling en javascript functionaliteit aan dezelfde class te verbinden. Deze zouden
+        anders niet los van elkaar te gebruiken zijn. We gebruiken daar dus een aparte class voor, en deze worden
+        altijd voorafgegaan door <code>js-</code>.</p>
+    <pre class=" language-markup" )=""><code class=" language-markup" )=""><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btn  js-reageer-btn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Ik wil reageren<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+    <p>Dit betekent dat we door de <code>btn</code> class toe te voegen, een ander element dezelfde styling kunnen
+        geven, maar zonder de functionaliteit die aan <code>js-reageer-btn</code> gekoppeld zit.</p>
+
+    <h2 id="ToC-CSS-Selectors">CSS Selectors</h2>
+    <p>Misschien enigszins verrassend, maar een van de meest belangrijke aspecten bij het schrijven van onderhoudbare
+        en schaalbare CSS zijn de selectors.</p>
+    <h3 id="ToC-Selector-Intentie">Selector Intentie</h3>
+    <p>Bij het schrijven van CSS is het belangrijk dat we goed opletten wat het bereik is van een selector, en dat we
+        de juiste dingen selecteren voor de juiste redenen. <br> <em>Selector Intentie</em> is het proces van het
+        beslissen en definiëren wat we willen stylen en hoe we het gaan selecteren. Als je bijvoorbeeld het hoofdmenu
+        van een website wilt stylen, is het onverstandig om een selector als deze te gebruiken:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.menu</span> ul </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+    <p>De <em>Selector's Intentie</em> is om elke <code>ul</code> in de class <code>.menu</code> te stylen, waar het
+        <em>onze</em> bedoeling was om het hoofdmenu te stylen. Dit is slechte <em>Selector Intentie</em>; je kunt
+        namelijk meer dan één <code>.menu</code> element op een pagina hebben, en deze kunnen ook meerdere <code>ul</code>'s
+        bevatten, dus een selector als deze loopt het risico dat die zeer specifieke styling toepast op een groot
+        aantal elementen.</p>
+    <p>Het is dan beter om een selector als deze te gebruiken:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.main-nav</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+    <p>Dit is een eenduidige, expliciete selector. We selecteren nadrukkelijk het juiste ding voor precies de juiste
+        reden.</p>
+    <p>Slechte <em>Selector Intentie</em> is een van de grootste redenen voor problemen bij een project met veel CSS.
+        Als je CSS niet expliciet genoeg is, loop je vaak tegen onverwachte bijwerkingen aan, zoals selectors die
+        ongerelateerde stijlregels beïnvloeden en in de weg zitten.</p>
+    <h3 id="ToC-Herbruikbaarheid">Herbruikbaarheid</h3>
+    <p>Omdat we steeds meer UI's willen maken op basis van componenten, is herbruikbaarheid erg belangrijk. We willen
+        de optie hebben om componenten te verplaatsten, kopieëren en te hergebruiken in onze projecten.</p>
+    <p>Daarom maken we veel gebruik van classes. ID's zijn naast het feit dat ze over-specifiek zijn, ook niet meer dan
+        één keer te gebruiken op een pagina. Classes daarentegen kunnen oneindig keer worden hergebruikt.</p>
+    <h3 id="ToC-Locatie-afhankelijkheid">Locatie afhankelijkheid</h3>
+    <p>Aangezien projecten aan veranderingen onderhevig zijn, is het beter om dingen <em>niet</em> te stylen op basis
+        van waar ze staan in het design. Componenten moeten helemaal onafhankelijk zijn van de locatie waar ze zich
+        bevinden.</p>
+    <p>Stel je hebt een knop in een inschrijfformulier die je styled met de volgende selector:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.inschrijven</span> a </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+    <p>Dit is niet alleen slechte <em>Selector Intentie</em>, omdat het elke link in het inschrijfformulier zal stylen,
+        maar ook erg locatie afhankelijk. We kunnen deze styling niet hergebruiken voor een andere knop buiten het
+        inschrijfformulier. Een veel betere selector zou zijn:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.btn</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+    <p>Deze class kan overal worden hergebruikt en zal altijd de juiste styling hebben. Door een betere selector, is
+        dit component verplaatsbaar, herbruikbaar, en heeft het geen afhankelijkheden. <strong>Een component zou niet
+            op een specifieke plaats moeten staan om er op een bepaalde manier uit te zien.</strong></p>
+    <h3 id="ToC-Verplaatsbaarheid">Verplaatsbaarheid</h3>
+    <p>Locatie afhankelijkheid willen we zoveel mogelijk terugdringen, het liefst zelfs helemaal voorkomen. Ook zet je
+        beter geen element-naam voor een selector.</p>
+    <pre class="language-css"><code><span class="token selector">input<span class="token class">.btn</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">/* deze class is niet inzetbaar voor andere elementen */</span></code></pre>
+
+    <p>Door de <code>input</code> voor je selector te zetten gaat de herbruikbaarheid van je component verloren. Als je
+        de <code>input</code> hier weg laat kan de styling ook worden hergebruikt voor een <code>&lt;a&gt;</code> of
+        een <code>&lt;button&gt;</code>.</p>
+    <h3 id="ToC-Naamgeving">Naamgeving</h3>
+    <p>Naamgeving binnen CSS kan erg lastig zijn. Het advies is om namen te gebruiken die verstandig zijn, maar ook
+        niet té specifiek. Let hierbij vooral op grote herbruikbaarheid. Bijvoorbeeld, een class als <code>.side-nav</code>
+        kun je beter vervangen door <code>.sub-nav</code>. Of i.p.v. <code>.footer-links</code> te gebruiken, kies je
+        beter voor <code>.sub-links</code>.</p>
+    <p>Het verschil in naamgeving zit in dat de eerste van elk van de 2 voorbeelden is gebonden aan een specifiek
+        geval. Ze kunnen alleen worden gebruikt als navigatie in de sidebar, of als links in de footer. Door een wat
+        minder specifieke naam te kiezen vergroten we de mogelijkheid om deze componenten ook in andere omstandigheden
+        in te zetten.</p>
+
+    <h2 id="ToC-Specificiteit">Specificiteit</h2>
+    <p>Als je ooit problemen hebt gehad met <a href="http://www.standardista.com/css3/css-specificity/">specificiteit</a>
+        in CSS weet je hoe vervelend dit kan zijn. Het beste is om de specificiteit zo laag mogelijk te houden, en het
+        zo veel mogelijk proberen te vermijden. De volgende punten helpen je hierbij:</p>
+    <ul>
+        <li>Gebruik géén IDs in je CSS <code>#footer {}</code></li>
+        <li>Geen geneste selectors <code>.content .widget p {}</code></li>
+        <li>Zet het element-type niet voor je selector <code>input.btn-primary {}</code></li>
+        <li>Selectors niet koppelen <code>.widget.box {}</code></li>
+    </ul>
+    <h3 id="ToC-IDs-in-CSS">IDs in CSS</h3>
+    <p>Om de specificiteit zo laag mogelijk te houden is er een simpele regel: gebruik géén IDs in je CSS. Ze zijn niet
+        herbruikbaar, en ze geven een element een enorm hoge specificiteit (100). Door deze regel besparen we onszelf
+        een hele hoop problemen. Mocht er toch sprake zijn van een uitzondering, bijvoorbeeld in geval van script
+        toepassingen op specifieke IDs, dan heeft de volgende notatie de voorkeur:</p>
+    <pre class="language-css"><code><span class="token selector">div[id="wrapper"] </span><span class="token punctuation">{</span> ... <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Nesting">Nesting</h3>
+    <p>Bij het declareren van je style gebruik je het minimum aantal selectors dat nodig is om een element te stylen.
+        Bekijk het volgende voorbeeld:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.mod</span> </span><span class="token punctuation">{</span>
+        <span class="token property">padding</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+        <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #bada55<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.mod</span> &gt; <span class="token class">.mod__title</span> </span><span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Om het element <code>.mod__title</code> te stylen hebben we een selector die 2 keer zo specifiek is als nodig.
+        Dat betekent dat als we de titel willen aanpassen, we een minstens gelijkwaardige selector nodig hebben:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.mod</span> </span><span class="token punctuation">{</span> ... <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.mod</span> &gt; <span class="token class">.mod__title</span> </span><span class="token punctuation">{</span> ... <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.mod</span> &gt; <span class="token class">.mod__title--sub</span> </span><span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Dit is iets wat je wilt vermijden. Als regel kun je stellen, <strong>als een selector werkt zonder genest te
+            zijn, gebruik dan geen nesting.</strong></p>
+    <h3 id="ToC-important">!important</h3>
+    <p>Het gebruik van <code>!important</code> is meestal een direct gevolg van specificiteits problemen. Het word vaak
+        gebruikt als laatste uitweg om een element toch maar goed te kunnen stylen, omdat je eerder in de CSS een
+        selector te specifiek hebt gemaakt. Je kunt het vergelijken met 'cheaten'.</p>
+    <p>Gebruik geen <code>!important</code> in je CSS om een specificiteits probleem op te lossen. Het mag alléén
+        gebruikt worden wanneer het gebruikt word als een garantie i.p.v. een fix. Bij voorbeeld:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.is-hidden</span> </span><span class="token punctuation">{</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> none <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Deze helper-class heeft een erg specifiek doel (content verbergen). Je gebruikt deze class alleen als je die
+        echt wilt. Daarom is in dit geval een <code>!important</code> wel toegelaten. Bedenk dus voor je <code>!important</code>
+        wilt gebruiken goed na of het niet een 'fix' is voor een eerder veroorzaakt probleem.</p>
+    <p>Gebruik de <code>!important</code> alleen in combinatie met een utility class of zoals hierboven in het
+        voorbeeld in een bepaalde state.</p>
+
+    <h2 id="ToC-SASS">SASS</h2>
+    <p>Sinds 2016 passen we SASS (Syntactically Awesome Style Sheets) toe op nieuwe projecten. SASS is een uitbreiding
+        van CSS die kracht en elegantie toevoegt aan de basistaal. Hiermee kun je variabelen, extends, mixins, imports,
+        en meer gebruiken met een volledig CSS-compatible syntax. SASS zorgt ervoor dat grote stylesheets goed
+        georganiseerd blijven, en krijgt kleine stylesheets super snel up and running.</p>
+    <h3 id="ToC-SCSS-Syntax">SCSS Syntax</h3>
+    <p>Maar waarom gebruiken wij SCSS en niet SASS? Dit komt eigenlijk gewoon neer op een kwestie van persoonlijke
+        smaak en keuze. De voornamelijke reden waarom wij SCSS toepassen en niet SASS is dat de syntax van SCSS
+        nagenoeg hetzelfde is aan die van CSS. Een standaard CSS bestand is met de syntax ook gewoon een legitiem SCSS
+        bestand, alleen worden hierin dan niet de handigheden zoals variabelen, nesting en mixins gebruikt. En omdat
+        SCSS veel meer weg heeft van de CSS syntax, is het overstappen en het toepassen ervan natuurlijk veel
+        makkelijker gebleken.</p>
+    <h3 id="ToC-Geen-SMACSS-maar-ITCSS">Geen SMACSS maar ITCSS</h3>
+    <p>Bij het toepassen van SCSS is de SMACSS architectuur niet meer relevant. In ons geval maken we gebruik van de <a
+            rel="noopener noreferrer" href="http://www.creativebloq.com/web-design/manage-large-css-projects-itcss-101517528"
+            target="_blank">ITCSS</a> (Inverted Triangle CSS) architectuur. Waarom deze architectuur? Deze vorm
+        vertegenwoordigt een model wat zorgt voor een geordende CSS structuur, en dat in de meest effectieve, minst
+        verspillende manier. Binnen deze ITCSS architectuur maken we gebruik van namespacing.</p>
+    <p>Een van de belangrijkste principes van ITCSS is dat het je CSS onderbrengt in lagen, en dat in de vorm van een
+        omgekeerde driehoek (Inverted triangle). Dit betekend dat je CSS is onderverdeeld van bovenin de algemene
+        zaken, zoals bijvoorbeeld het kleurgebruik tot aan onderin de hele specifieke zaken, zoals een bepaalde button.</p>
+
+    <img class="wide" src="/media/1022/itcss-layers.jpg">
+    <p>De lagen zijn dan alsvolgt ingedeeld:</p>
+    <ul>
+        <li><strong>Settings</strong> - variabelen die worden gebruikt voor de preprocessor zoals lettertypes, kleuren,
+            enz.</li>
+        <li><strong>Tools</strong> - algemeen gebruik van mixins en functies. Het is de belangrijkste, niet uit te
+            voeren CSS, in de eerste 2 lagen.</li>
+        <li><strong>Generic</strong> - reset en/of normalize stijlen, box-sizing definities, enz. Dit is de eerste laag
+            waarin de clean CSS wordt gegenereert.</li>
+        <li><strong>Elements</strong> - styling voor kale HTML-elementen (zoals H1, A, enz.). Deze komen met standaard
+            styling van de browser, zodat we ze hierin opnieuw definiëren.</li>
+        <li><strong>Objects</strong> - objecten die vooral weinig design stijlen bevatten, neem hierin het media object
+            als voorbeeld.</li>
+        <li><strong>Components</strong> - specifieke UI-componenten, Dit is waar de meerderheid van ons werk
+            plaatsvindt.</li>
+        <li><strong>Utility</strong> - betreft helper classes die de mogelijkheid hebben om alle voorafgaande stijlen
+            in de driehoek te overschrijven met een specifieke stijl. Zoals bijvoorbeeld een hide class.</li>
+    </ul>
+    <p>De driehoek laat ook zien hoe de stijlen van de selectors worden gerangschikt in de resulterende CSS: van
+        generieke stijlen tot zeer expliciete, van laag-specifieke selectors tot zeer-specifieke selectors en van ver
+        reikend tot gelokaliseerde selectors.</p>
+
+    <img class="wide" src="/media/1023/itcss-organisatie.jpg">
+    <h3 id="ToC-Namespacing">Namespacing</h3>
+    <p>Het gebruik van een namespacing is niet alleen handig om een specifiek element te voorzien van opmaak, ook door
+        de namespacing is een element makkelijk terug te vinden in een project, waar het element allemaal terug komt.</p>
+    <ul>
+        <li><code>o-</code>: Dit zijn objecten, deze objecten kunnen op verschillende manieren worden toegepast. Met de
+            objecten moet je oppassen want bij het maken van aanpassingen zou je een domino-effect kunnen veroorzaken
+            op verschillende plaatsen.</li>
+        <li><code>c-</code>: Componenten zijn implementatie-specifieke stukjes van UI. Ze zijn vrij veilig te wijzigen
+            zonder dat er elders wat omvalt. Alles met een c- is een specifiek element.</li>
+        <li><code>u-</code>: Utilities zijn componenten die een specifieke en gerichte taak hebben. Het is ook
+            gebruikelijk dat deze regels voorzien zijn van een <code>!important</code> regel. Ze doen maar één ding in
+            een zeer hardhandige en onelegante manier. Ze worden gebruikt als een laatste redmiddel wanneer geen andere
+            CSS oplossingen beschikbaar is. Ze zijn slechts één stap verwijderd van het inline stijlen, dus deze pas
+            gebruiken wanneer het niet anders kan.</li>
+        <li><code>is-, has-</code>: Betekent dat het element in kwestie momenteel is vormgegeven als gevolg van een
+            staat of toestand.</li>
+        <li><code>js-</code>: Javascript bindt op deze class. Deze specifieke class mag nooit terugkomen in de styling
+            omdat deze class op geen enkele voorwaarde ooit voorzien van opmaak.</li>
+    </ul>
+    <p>Door alleen dit korte lijstje al kun je zien hoe veel meer informatie we ontwikkelaars kunnen geven door
+        simpelweg één of twee tekens toe te voegen aan onze classes.</p>
+    <h3 id="ToC-Imports">Imports</h3>
+    <p>CSS heeft een import-optie waarmee je CSS kunt splitsen in kleinere, meer onderhoudbare porties. Het enige
+        nadeel bij het gebruik van de @import mogelijkheid binnen CSS is dat je bij elke import dan ook elke keer een
+        HTTP request uitvoert. SCSS bouwt verder op de huidige CSS @import functie, maar in plaats van een
+        HTTP-verzoek, zal SCSS het bestand dat je wil importeren, combineren met het bestand dat je importeert. Hiermee
+        stuur je uiteindelijk maar één CSS bestand richting de browser. In onze projecten wordt het meest gebruik
+        gemaakt van de @import in onze main SCSS, dit ziet er alsvolgt uit:</p>
+    <pre class="language-css"><code>&gt;<span class="token atrule">@charset "utf-8"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 1 SETTINGS - Global variables, site-wide settings, config switches etc.
+    *
+    * The order in which these Sass files are loaded is critical!
+    * So please be careful when editing
+    =========================================================== */</span>
+    <span class="token atrule">@import "1-Settings/settings.colors"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.config"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.typography"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.spacing"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.responsive"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.grid"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.site"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "1-Settings/settings.zindex"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 2 Tools - Site wide mixins and functions
+    =========================================================== */</span>
+    <span class="token atrule">@import "2-Tools/tools.debug"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "2-Tools/tools.givebreakpoint"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import '2-Tools/tools.icons-sprite-main'<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "2-Tools/tools.toolbox"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 3 Generic - Ground-zero styles / Low-specificity, far-reaching rulesets. (resets, box-sizing etc.)
+    =========================================================== */</span>
+    <span class="token atrule">@import "3-Generic/generic.normalize"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "3-Generic/generic.reset"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 4 Elements - Unclassed HTML elements (type selectors)
+    =========================================================== */</span>
+    <span class="token atrule">@import "4-Elements/elements.animations"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "4-Elements/elements.images"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "4-Elements/elements.lists"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "4-Elements/elements.page"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "4-Elements/elements.typography"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 5 Objects - Design patterns (e.g. .media)
+    =========================================================== */</span>
+    <span class="token atrule">@import "5-Objects/objects.arrange"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "5-Objects/objects.datalist"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "5-Objects/objects.grid"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "5-Objects/objects.lists"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "5-Objects/objects.media"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "5-Objects/objects.wrappers"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 6 Components - Discrete complete chunks of UI. Designed components
+    =========================================================== */</span>
+    <span class="token atrule">@import "6-Components/components.headings"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.icons"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.labels"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.links"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.loader"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.messages"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.nav"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.notice"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.popup"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.rte"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.tabs"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "6-Components/components.toggle"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 7 Utility - High-specificity, very explicit selectors. Overrides and helper classes.
+    =========================================================== */</span>
+    <span class="token atrule">@import "7-Utility/utility.helpers"<span class="token punctuation">;</span></span>
+    <span class="token atrule">@import "7-Utility/utility.spacing"<span class="token punctuation">;</span></span>
+
+    <span class="token comment" spellcheck="true">/* 8 Libs
+    =========================================================== */</span>
+    <span class="token atrule">@import "8-Libs/libs.libstyles"<span class="token punctuation">;</span></span></code></pre>
+
+    <h3 id="ToC-Variabelen">Variabelen</h3>
+    <p>Het gebruik van variabelen is een manier om de stijlen die je wilt hergebruiken in de stylesheet op te slaan en
+        te gebruiken. Je stelt deze stijl in de variabelen 1 keer in en kunt deze vervolgens overal gaan gebruiken. Het
+        grote voordeel hiervan is dat je de variabelen 1 keer hoeft te wijzigen, alle stijlen die voorzien zijn van
+        deze variabele veranderd in deze automatisch mee.</p>
+    <p>Om een variabele te defineren maken we gebruik van het <code>$</code> symbool. Een voorbeeld:</p>
+    <pre class="language-css"><code><span class="token selector">$font-stack:        Helvetica, sans-serif;
+    $primary-color:     <span class="token id">#333</span>;
+
+    body </span><span class="token punctuation">{</span>
+        <span class="token property">font</span><span class="token punctuation">:</span> $font-stack<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> $primary-color<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Wanneer de SCSS wordt verwerkt worden de variabelen die zijn gedefineerd voor de $font-stack en $primary-color
+        omgezet naar normaal CSS. Dit is ideaal wanneer er wordt gewerkt met huisstijl kleuren die consequent door de
+        hele site moeten worden toegepast. Het resultaat van bovenstaande voorbeeld is dan alsvolgt:</p>
+    <pre class="language-css"><code><span class="token selector">body </span><span class="token punctuation">{</span>
+        <span class="token property">font</span><span class="token punctuation">:</span>   Helvetica, sans-serif<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span>  #333<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Functions">Functions</h3>
+    <p>Met SCSS maken we gebruik van Functions en Mixins. Deze onderscheiden we in 2 apparte bestanden binnen de SCSS,
+        een bestand voor Functions en een bestand voor Mixins. Voor website specifieke functions en mixins hebben we
+        een gecombineerd toolbox bestand. Bij mixins krijg je CSS terug, bij functions is dit niet het geval, functions
+        retourneren een waarde. Zie hieronder hoe je een function kunt toepassen:</p>
+    <pre class="language-css"><code><span class="token atrule">@txtFunction calc-function($val1, $val2)</span> <span class="token punctuation">{</span>
+        @txtReturn $val1 + $val2
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>Na het maken van de function kun je deze gebruiken in je SCSS waaronder ook in je Mixins. Een simpel voorbeeld
+        van het toevoegen van een function in de SCSS:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.my-module</span> </span><span class="token punctuation">{</span>
+        <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token function">calc-function</span>(10px, 5px)<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Mixins">Mixins</h3>
+    <p>Met een mixin is het mogelijk om een groep CSS stijlen te maken en deze vervolgens overal te kunnen hergebruiken
+        op de website. Ook is het mogelijk om een variabele mee te geven om het nog flexibeler te maken. Hieronder een
+        mixin voorbeeld voor het afbreken van een titel wanneer deze de maximale breedte overschrijd:</p>
+    <pre class="language-css"><code><span class="token atrule">@mixin truncate($truncation-boundary)</span> <span class="token punctuation">{</span>
+        <span class="token property">max-width</span><span class="token punctuation">:</span> $truncation-boundary<span class="token punctuation">;</span>
+        <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+        <span class="token property">text-overflow</span><span class="token punctuation">:</span> ellipsis<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.titel</span> </span><span class="token punctuation">{</span> <span class="token atrule">@include truncate(500px)<span class="token punctuation">;</span></span> <span class="token punctuation">}</span></code></pre>
+
+    <p>Om gebruik te maken van een &#8203;&#8203;mixin maak je gebruik van de @mixin richtlijnen en geef je deze een
+        duidelijke en toepasselijke naam. In ons voorbeeld hebben we onze mixin truncate genoemd. Ook maken we in het
+        voorbeeld gebruik van de variabele $truncation-boundary tussen de haakjes, hiermee kunnen we een waarde
+        meegeven die wordt toegepast binnen de mixin. Nadat de mixin is gemaakt, is het vervolgens mogelijk om deze te
+        gebruiken als een CSS stijl te beginnen met een @include gevolgd door de naam van de mixin. Wanneer de CSS
+        wordt gegenereerd zal het er als volgt uitzien:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.titel</span> </span><span class="token punctuation">{</span>
+        <span class="token property">max-width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+        <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+        <span class="token property">text-overflow</span><span class="token punctuation">:</span> ellipsis<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Selector-Nesting">Selector Nesting</h3>
+    <p>Selector nesting is een kenmerk van SCSS, hiermee kun je selectors binnen selectors plaatsen, het is hierbij
+        niet verplicht om de hele classnaam te noteren, echter is dan het terugvinden van een class bij bijvoorbeeld
+        een modifier (BEM) niet echt handig. Daarom hieronder een voorbeeld van hoe het niet en wel moet.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/* fout */</span>
+    <span class="token selector"><span class="token class">.c-button</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">display: inline-block;
+        text-decoration: none;
+        color: <span class="token id">#000</span>;
+
+        &amp;--light </span><span class="token punctuation">{</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> #FFF<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/* goed */</span>
+    <span class="token selector"><span class="token class">.c-button</span> </span><span class="token punctuation">{</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+        <span class="token property">text-decoration</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #000<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.c-button--light</span> </span><span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #FFF<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <p>In dit voorbeeld is <code>.c-button--dark</code> de modifier die bij <code>.c-button</code> geplaatst kan
+        worden. Bij het incorrecte voorbeeld is het door het hele project heen de class <code>.c-button--dark</code>
+        moeilijk vindbaar, mits je zoekt op <code>--dark</code>, in dit geval is het wel sneller mogelijk dat de
+        classnaam vaker in de zoekresultaten terugkomen omdat het niet om een bijzonder specifieke classnaam gaat.</p>
+    <p>In het geval van een bijvoorbeeld een <code>:hover</code> of een <code>::before</code> en <code>::after</code>
+        passen we wel gemakkelijk de nesting toe. Zie hieronder een voorbeeld van de eerder genoemde situatie maar nu
+        inclusief een <code>hover</code>:</p>
+    <pre class="language-css"><code><span class="token selector"><span class="token class">.c-button</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">display: inline-block;
+        text-decoration: none;
+        color: <span class="token id">#000</span>;
+
+        &amp;<span class="token pseudo-class">:hover</span> </span><span class="token punctuation">{</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> #FFF<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+
+    <h3 id="ToC-Gulp-Autoprefixer">Gulp Autoprefixer</h3>
+    <p>Werken met de <a rel="noopener noreferrer" href="https://www.npmjs.com/package/gulp-autoprefixer" target="_blank">Gulp
+            autoprefixer</a> is eenvoudig, je schrijft gewoon SCSS en de vendor prefixes kun je hierbij gewoon
+        vergeten, deze worden door de autoprefixer op basis van de laatste W3C specs toegevoegd. In je Gulp file hoef
+        je alleen nog maar aan te geven welke browsers je wil ondersteunen met '<a rel="noopener noreferrer" href="http://caniuse.com/"
+            target="_blank">Can I Use</a>' statistieken. In de Gulpfile komt deze configuratie alsvolgt terug:</p>
+    <ol>
+        <li>
+            <p>Eerst wordt er een variabele gezet waarin je aangeeft naar welke browsers gekeken moet worden waarvoor
+                vendor prefixes moeten worden toegepast. Dit werkt via de <code>Browserlist key</code> in de gulp file,
+                het specificeren van de browsers gaat dan via verschillende standaard <a rel="noopener noreferrer" href="https://github.com/ai/browserslist#queries"
+                    target="_blank">queries</a></p>
+            <p><img id="__mcenew" src="/media/1020/gulp-autoprefix01.jpg" alt="Gulp Autoprefixer" data-udi="umb://media/3421a51368c84622a7d1cbc1f7727824"></p>
+        </li>
+        <li>
+            <p>Vervolgens wordt deze variabele geplaatst binnen de gulp build, waarbij de autoprefixer wordt
+                geactiveerd en zorgt voor de vendor prefixes binnen de gegenereerde CSS daar waar dat nodig is.</p>
+            <p><img id="__mcenew" src="/media/1021/gulp-autoprefix02.jpg" alt="Gulp Autoprefixer" data-udi="umb://media/10fcf797369b45909ea32043a9fe37c4"></p>
+        </li>
+    </ol>
+    <p>Kortom, in de SCSS schrijf je de normale CSS en de autoprefixer zorgt voor de rest.</p>
+    <h3 id="ToC-SVG-Sprite">SVG Sprite</h3>
+    <p>Binnen je project vind je de map <code>svg-sprites</code>, in deze map vind je een verzameling van je <code>svg</code>
+        bestanden. Via een <a rel="noopener noreferrer" href="https://github.com/jkphl/gulp-svg-sprite" target="_blank">Gulp
+            script</a> wordt hiervan een sprite ontwikkeld en kun je deze via een makkelijke mixin gebruiken binnen het
+        project. Geef je <code>svg</code> bestand binnen het project een unieke naam, deze naam kun je vervolgens in de
+        SCSS gebruiken om de Mixin toe te passen, de mixin zorgt er vervolgens voor dat er een template in elkaar wordt
+        gezet welke vervolgens uitgelezen kan worden en een CSS gebouwd kan worden. Een voorbeeld van een svg
+        toepassing vind je hieronder.</p>
+    <pre class="language-css"><code><span class="token comment" spellcheck="true">/* SCSS */</span>
+    <span class="token selector"><span class="token class">.c-icon</span> </span><span class="token punctuation">{</span>
+        <span class="token atrule">@include sprite(message-notification)<span class="token punctuation">;</span></span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.c-icon</span>[data-icon='alert'] </span><span class="token punctuation">{</span>
+        <span class="token atrule">@include sprite(message-alert, elem)<span class="token punctuation">;</span></span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.c-icon</span>[data-icon='error'] </span><span class="token punctuation">{</span>
+        <span class="token atrule">@include sprite(message-error, elem)<span class="token punctuation">;</span></span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/* Output */</span>
+    <span class="token selector"><span class="token class">.c-icon</span> </span><span class="token punctuation">{</span>
+        <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+        <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url">url("../img/Icons-sprite.svg")</span><span class="token punctuation">;</span>
+        <span class="token property">background-size</span><span class="token punctuation">:</span> 538px 532px<span class="token punctuation">;</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> 1rem<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">background-position</span><span class="token punctuation">:</span> -384px -384px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.c-icon--alert</span> </span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">background-position</span><span class="token punctuation">:</span> -320px -320px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.c-icon--error</span> </span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+        <span class="token property">background-position</span><span class="token punctuation">:</span> -352px -352px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+</main>
